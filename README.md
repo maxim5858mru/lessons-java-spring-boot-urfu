@@ -162,7 +162,7 @@ public class Response {
     private String operationUid;
 
     /**
-     * Имя системы отправителя
+     * Время отправки сообщения
      */
     private String systemTime;
 
@@ -219,3 +219,165 @@ public class MainController {
 ![Снимок экрана в Postman](images/Screenshot%20LW1.1%20Postman.png)
 
 ![Снимок экрана в Jetbrains Intelli IDEA](images/Screenshot%20LW1.2%20Jetbrains%20Intelli%20IDEA.png)
+
+## Лабораторная работа №2
+
+### Цель работы
+
+Доработка REST API сервера.
+
+### Задачи
+
+1. Доработка сервиса
+2. Добавить логирование в сервис
+3. Добавить преобразование входящего сообщения
+
+### Код
+
+Файл `application.properties`:
+
+```properties
+logging.level.org.springframework.web=ERROR
+logging.level.ru.maxim5858mru.urfu.java.lessons.springboot=DEBUG
+```
+
+Интерфейс `ModifyService`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+
+public interface ModifyService {
+    Response modify(Response response);
+}
+```
+
+Класс `ModifyUid`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+
+@Service
+@RequiredArgsConstructor
+@Qualifier("ModifyUid")
+public class ModifyUid implements ModifyService {
+    public Response modify(Response response) {
+        response.setUid("New UID");
+        return response;
+    }
+}
+```
+
+Класс `ModifySystemTime`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+
+@Service
+@RequiredArgsConstructor
+@Qualifier("ModifySystemTime")
+public class ModifySystemTime implements ModifyService {
+    @Override
+    public Response modify(Response response) {
+        response.setSystemTime("");
+        return response;
+    }
+}
+```
+
+Класс `ModifyErrorMessage`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+
+@Service
+@RequiredArgsConstructor
+@Qualifier("ModifyErrorMessage")
+public class ModifyErrorMessage implements ModifyService {
+    @Override
+    public Response modify(Response response) {
+        response.setErrorMessage("Что-то сломалось");
+        return response;
+    }
+}
+```
+
+Класс `MainController`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
+
+@Slf4j
+@RestController
+public class MainController {
+    private final ModifyService modifyService;
+
+    @Autowired
+//    public MainController(@Qualifier("ModifyUid") ModifyService modifyService) {
+//    public MainController(@Qualifier("ModifySystemTime") ModifyService modifyService) {
+    public MainController(@Qualifier("ModifyErrorMessage") ModifyService modifyService) {
+        this.modifyService = modifyService;
+    }
+
+    @PostMapping(value = "/feedback")
+    public ResponseEntity<Response> feedback(@RequestBody Request request) {
+        // Логирование приходящего запроса
+        log.info("Входящий запрос: " + String.valueOf(request));
+
+        var response = Response.builder()
+                .uid(request.getUid())
+                .operationUid(request.getOperationUid())
+                .systemTime(request.getSystemTime())
+                .code("success")
+                .errorCode("")
+                .errorMessage("")
+                .build();
+
+        var responseAfterModify = modifyService.modify(response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+}
+```
+
+### Снимки экрана
+
+![Снимок экрана в Postman при работе ModifyUid](images/Screenshot%20LW2.1%20Postman%20ModifyUid.png)
+
+![Снимок экрана в Jetbrains Intelli IDEA при работе ModifyUid](images/Screenshot%20LW2.2%20Jetbrains%20Intelli%20IDEA%20ModifyUid.png)
+
+![Снимок экрана в Postman при работе ModifySystemTime](images/Screenshot%20LW2.3%20Postman%20ModifySystemTime.png)
+
+![Снимок экрана в Jetbrains Intelli IDEA при работе ModifySystemTime](images/Screenshot%20LW2.4%20Jetbrains%20Intelli%20IDEA%20ModifySystemTime.png)
+
+![Снимок экрана в Postman при работе ModifyErrorMessage](images/Screenshot%20LW2.5%20Postman%20ModifyErrorMessage.png)
+
+![Снимок экрана в Jetbrains Intelli IDEA при работе ModifyErrorMessage](images/Screenshot%20LW2.6%20Jetbrains%20Intelli%20IDEA%20ModifyErrorMessage.png)

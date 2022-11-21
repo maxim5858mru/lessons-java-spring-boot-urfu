@@ -17,7 +17,7 @@ public class Response {
     private String operationUid;
 
     /**
-     * Имя системы отправителя
+     * Время отправки сообщения
      */
     private String systemTime;
 

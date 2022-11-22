@@ -3,6 +3,7 @@ package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,22 +11,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
 import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyRequestService;
 import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
 
 @Slf4j
 @RestController
 public class MainController {
     private final ModifyService modifyService;
+    private final ModifyRequestService modifyRequestService;
 
     @Autowired
-    public MainController(@Qualifier("ModifyUid") ModifyService modifyService) {
-//    public MainController(@Qualifier("ModifySystemTime") ModifyService modifyService) {
-//    public MainController(@Qualifier("ModifyErrorMessage") ModifyService modifyService) {
+    private Environment environment;
+
+    @Autowired
+//    public MainController(@Qualifier("ModifyUid") ModifyService modifyService,
+//    public MainController(@Qualifier("ModifyErrorMessage") ModifyService modifyService,
+    public MainController(@Qualifier("ModifySystemTime") ModifyService modifyService,
+                          ModifyRequestService modifyRequestService) {
         this.modifyService = modifyService;
+        this.modifyRequestService = modifyRequestService;
     }
 
     @PostMapping(value = "/feedback")
     public ResponseEntity<Response> feedback(@RequestBody Request request) {
+        var port = Integer.parseInt(environment.getProperty("local.server.port"));
+
         // Логирование приходящего запроса
         log.info("Входящий запрос: " + String.valueOf(request));
 
@@ -38,7 +48,9 @@ public class MainController {
                 .errorMessage("")
                 .build();
 
+        if (port == 8080) modifyRequestService.modifyRequest(request);
         var responseAfterModify = modifyService.modify(response);
+        if (port == 8080) log.warn("Исходящий response: " + String.valueOf(responseAfterModify));
 
         return new ResponseEntity<>(responseAfterModify, HttpStatus.OK);
     }

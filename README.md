@@ -381,3 +381,130 @@ public class MainController {
 ![Снимок экрана в Postman при работе ModifyErrorMessage](images/Screenshot%20LW2.5%20Postman%20ModifyErrorMessage.png)
 
 ![Снимок экрана в Jetbrains Intelli IDEA при работе ModifyErrorMessage](images/Screenshot%20LW2.6%20Jetbrains%20Intelli%20IDEA%20ModifyErrorMessage.png)
+
+## Лабораторная работа №3
+
+### Цель работы
+
+Доработать простой REST сервис и настроить связь между двумя сервисами.
+
+### Задачи
+
+1. Создание нового сервиса, который будет принимать request от сервиса разработанного в прошлой лабораторной работе;
+2. Доработка сервиса ранее разработанного для того, чтобы он мог пересылать полученный и модифицированный request.
+
+### Создание конфигурации для второго сервера
+
+Чтобы не выполнять копирование файлов, можно создать отдельную конфигурацию, с другим указанными основным портом.
+
+![Снимок экрана в Jetbrains Intelli IDEA при настройке конфигурации второго экземпляра сервиса](images/Screenshot%20LW3.3%20Jetbrains%20Intelli%20IDEA%20Second%20Service%20Configuration.png)
+
+### Код
+
+Интерфейс `ModifyRequestService`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+
+public interface ModifyRequestService {
+    void modifyRequest(Request request);
+}
+```
+
+Класс `ModifyRequestSystemTime`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+
+@Service
+public class ModifyRequestSystemTime implements ModifyRequestService {
+    @Override
+    public void modifyRequest(Request request) {
+        request.setSystemTime("Test");
+
+        var httpEntity = new HttpEntity<>(request);
+
+        new RestTemplate().exchange("http://localhost:9090/feedback",
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+    }
+}
+```
+
+Класс `MainController`:
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyRequestService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
+
+@Slf4j
+@RestController
+public class MainController {
+    private final ModifyService modifyService;
+    private final ModifyRequestService modifyRequestService;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+//    public MainController(@Qualifier("ModifyUid") ModifyService modifyService,
+//    public MainController(@Qualifier("ModifyErrorMessage") ModifyService modifyService,
+    public MainController(@Qualifier("ModifySystemTime") ModifyService modifyService,
+                          ModifyRequestService modifyRequestService) {
+        this.modifyService = modifyService;
+        this.modifyRequestService = modifyRequestService;
+    }
+
+    @PostMapping(value = "/feedback")
+    public ResponseEntity<Response> feedback(@RequestBody Request request) {
+        var port = Integer.parseInt(environment.getProperty("local.server.port"));
+
+        // Логирование приходящего запроса
+        log.info("Входящий запрос: " + String.valueOf(request));
+
+        var response = Response.builder()
+                .uid(request.getUid())
+                .operationUid(request.getOperationUid())
+                .systemTime(request.getSystemTime())
+                .code("success")
+                .errorCode("")
+                .errorMessage("")
+                .build();
+
+        if (port == 8080) modifyRequestService.modifyRequest(request);
+        var responseAfterModify = modifyService.modify(response);
+        if (port == 8080) log.warn("Исходящий response: " + String.valueOf(responseAfterModify));
+
+        return new ResponseEntity<>(responseAfterModify, HttpStatus.OK);
+    }
+}
+```
+
+### Снимки экрана
+
+![Снимок экрана в Jetbrains Intelli IDEA](images/Screenshot%20LW3.1%20Jetbrains%20Intelli%20IDEA.png)
+
+![Снимок экрана в Jetbrains Intelli IDEA окна Services с логами от второго сервиса](images/Screenshot%20LW3.2%20Jetbrains%20Intelli%20IDEA%20Second%20Service.png)

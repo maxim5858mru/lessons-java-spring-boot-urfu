@@ -649,13 +649,13 @@ spring.datasource.url=jdbc:h2:./database/students
 
 ### Разработка REST сервиса
 
-| HTTP метод | URL                | CRUD операция              |
-|------------|--------------------|----------------------------|
-| `GET`      | api/student        | Получение всех студентов   |
-| `GET`      | api/student/{id}   | Получение одного студента  |
-| `POST`     | api/student        | Добавление студента        |
-| `PUT`      | api/student        | Изменение студента         |
-| `DELETE`   | api/student/{id}   | Удаление студента          |
+| HTTP метод | URL              | CRUD операция             |
+|------------|------------------|---------------------------|
+| `GET`      | api/student      | Получение всех студентов  |
+| `GET`      | api/student/{id} | Получение одного студента |
+| `POST`     | api/student      | Добавление студента       |
+| `PUT`      | api/student      | Изменение студента        |
+| `DELETE`   | api/student/{id} | Удаление студента         |
 
 Интерфейс `StudentDAO`:
 
@@ -663,7 +663,8 @@ spring.datasource.url=jdbc:h2:./database/students
 package ru.maxim5858mru.urfu.java.lessons.springboot.rest.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
 
 import java.util.List;
 
@@ -687,7 +688,8 @@ package ru.maxim5858mru.urfu.java.lessons.springboot.rest.dao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -800,7 +802,8 @@ package ru.maxim5858mru.urfu.java.lessons.springboot.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
-import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.service.StudentService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.service.StudentService;
 
 import java.util.List;
 
@@ -851,3 +854,76 @@ public class MainController {
 ![Снимок экрана в Postman с тестированием запроса Update](images/Screenshot%20LW4.8%20Postman%20Update.png)
 
 ![Снимок экрана в Postman с тестированием запроса Delete](images/Screenshot%20LW4.9%20Postman%20Delete.png)
+
+## Лабораторная работа №5
+
+### Цель работы
+
+Разработать простое приложение в веб-формой.
+
+### Создание конфигурации для MVC
+
+![Снимок экрана в Jetbrains IntelliJ IDEA при настройке конфигурации MVC сервиса](images/Screenshot%20LW5.3%20Jetbrains%20IntelliJ%20IDEA%20MVC%20Service%20Configuration.png)
+
+### Код
+
+Код класса `LessonsJavaSpringBootUrFUApplicationMVC`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.mvc;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LessonsJavaSpringBootUrFUApplicationMVC {
+    public static void main(String[] args) {
+        SpringApplication.run(LessonsJavaSpringBootUrFUApplicationMVC.class, args);
+    }
+}
+```
+
+Код класса `MainController`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.mvc.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class MainController {
+    @GetMapping("/hello")   // Привязывает запросы GET /hello к методу showFirstPage()
+    public String showFirstPage(@RequestParam(name = "name", required = false, defaultValue = "World")
+                                String name,
+                                Model model) {
+        // Параметр строки запроса name привязан к параметру метода showFirstPage(), если он не указан, то используется
+        // значение по умолчанию "World" (которое после добавляется в модель)
+        model.addAttribute("name", name);
+        return "first-page";
+    }
+}
+```
+
+Шаблон страницы `first-page.html`:
+
+```html
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + '!'"/>
+</body>
+</html>
+```
+
+### Тестирование приложения
+
+![Снимок экрана в браузере с тестированием приложения](images/Screenshot%20LW5.1%20Jetbrains%20IntelliJ%20IDEA%20and%20Web-browser.png)
+
+![Снимок экрана в браузере с тестированием приложения при передаче параметра](images/Screenshot%20LW5.2%20Jetbrains%20IntelliJ%20IDEA%20and%20Web-browser.png)

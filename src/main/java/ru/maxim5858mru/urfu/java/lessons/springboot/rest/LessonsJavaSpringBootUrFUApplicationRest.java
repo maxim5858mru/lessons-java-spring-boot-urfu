@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LessonsJavaSpringBootUrFuApplicationRest {
+public class LessonsJavaSpringBootUrFUApplicationRest {
     public static void main(String[] args) {
-        SpringApplication.run(LessonsJavaSpringBootUrFuApplicationRest.class, args);
+        SpringApplication.run(LessonsJavaSpringBootUrFUApplicationRest.class, args);
     }
 }

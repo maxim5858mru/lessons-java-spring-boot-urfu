@@ -1,4 +1,4 @@
-package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
-import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyRequestService;
-import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service.ModifyRequestService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service.ModifyService;
 
 @Slf4j
 @RestController

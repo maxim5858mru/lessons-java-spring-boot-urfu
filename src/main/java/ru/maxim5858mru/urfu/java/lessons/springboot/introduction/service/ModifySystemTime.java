@@ -1,9 +1,9 @@
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 @Service
 @RequiredArgsConstructor

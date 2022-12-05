@@ -1,4 +1,4 @@
-package ru.maxim5858mru.urfu.java.lessons.springboot.model;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model;
 
 import lombok.Builder;
 import lombok.Data;

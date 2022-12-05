@@ -73,7 +73,7 @@
 Класс `Request`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.model;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -143,7 +143,7 @@ public class Request {
 Класс `Response`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.model;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -186,15 +186,15 @@ public class Response {
 Класс `MainController`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 @RestController
 public class MainController {
@@ -218,7 +218,7 @@ public class MainController {
 
 ![Снимок экрана в Postman](images/Screenshot%20LW1.1%20Postman.png)
 
-![Снимок экрана в Jetbrains Intelli IDEA](images/Screenshot%20LW1.2%20Jetbrains%20Intelli%20IDEA.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA](images/Screenshot%20LW1.2%20Jetbrains%20IntelliJ%20IDEA.png)
 
 ## Лабораторная работа №2
 
@@ -244,9 +244,9 @@ logging.level.ru.maxim5858mru.urfu.java.lessons.springboot=DEBUG
 Интерфейс `ModifyService`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 public interface ModifyService {
     Response modify(Response response);
@@ -256,12 +256,12 @@ public interface ModifyService {
 Класс `ModifyUid`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 @Service
 @RequiredArgsConstructor
@@ -277,12 +277,12 @@ public class ModifyUid implements ModifyService {
 Класс `ModifySystemTime`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 @Service
 @RequiredArgsConstructor
@@ -299,12 +299,12 @@ public class ModifySystemTime implements ModifyService {
 Класс `ModifyErrorMessage`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
 
 @Service
 @RequiredArgsConstructor
@@ -321,7 +321,7 @@ public class ModifyErrorMessage implements ModifyService {
 Класс `MainController`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -331,9 +331,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
-import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service.ModifyService;
 
 @Slf4j
 @RestController
@@ -372,15 +372,15 @@ public class MainController {
 
 ![Снимок экрана в Postman при работе ModifyUid](images/Screenshot%20LW2.1%20Postman%20ModifyUid.png)
 
-![Снимок экрана в Jetbrains Intelli IDEA при работе ModifyUid](images/Screenshot%20LW2.2%20Jetbrains%20Intelli%20IDEA%20ModifyUid.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA при работе ModifyUid](images/Screenshot%20LW2.2%20Jetbrains%20IntelliJ%20IDEA%20ModifyUid.png)
 
 ![Снимок экрана в Postman при работе ModifySystemTime](images/Screenshot%20LW2.3%20Postman%20ModifySystemTime.png)
 
-![Снимок экрана в Jetbrains Intelli IDEA при работе ModifySystemTime](images/Screenshot%20LW2.4%20Jetbrains%20Intelli%20IDEA%20ModifySystemTime.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA при работе ModifySystemTime](images/Screenshot%20LW2.4%20Jetbrains%20IntelliJ%20IDEA%20ModifySystemTime.png)
 
 ![Снимок экрана в Postman при работе ModifyErrorMessage](images/Screenshot%20LW2.5%20Postman%20ModifyErrorMessage.png)
 
-![Снимок экрана в Jetbrains Intelli IDEA при работе ModifyErrorMessage](images/Screenshot%20LW2.6%20Jetbrains%20Intelli%20IDEA%20ModifyErrorMessage.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA при работе ModifyErrorMessage](images/Screenshot%20LW2.6%20Jetbrains%20IntelliJ%20IDEA%20ModifyErrorMessage.png)
 
 ## Лабораторная работа №3
 
@@ -397,16 +397,16 @@ public class MainController {
 
 Чтобы не выполнять копирование файлов, можно создать отдельную конфигурацию, с другим указанными основным портом.
 
-![Снимок экрана в Jetbrains Intelli IDEA при настройке конфигурации второго экземпляра сервиса](images/Screenshot%20LW3.3%20Jetbrains%20Intelli%20IDEA%20Second%20Service%20Configuration.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA при настройке конфигурации второго экземпляра сервиса](images/Screenshot%20LW3.3%20Jetbrains%20IntelliJ%20IDEA%20Second%20Service%20Configuration.png)
 
 ### Код
 
 Интерфейс `ModifyRequestService`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
 
 public interface ModifyRequestService {
     void modifyRequest(Request request);
@@ -416,14 +416,14 @@ public interface ModifyRequestService {
 Класс `ModifyRequestSystemTime`:
 
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.service;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
 
 @Service
 public class ModifyRequestSystemTime implements ModifyRequestService {
@@ -443,8 +443,9 @@ public class ModifyRequestSystemTime implements ModifyRequestService {
 ```
 
 Класс `MainController`:
+
 ```java
-package ru.maxim5858mru.urfu.java.lessons.springboot.controller;
+package ru.maxim5858mru.urfu.java.lessons.springboot.introduction.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -455,10 +456,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Request;
-import ru.maxim5858mru.urfu.java.lessons.springboot.model.Response;
-import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyRequestService;
-import ru.maxim5858mru.urfu.java.lessons.springboot.service.ModifyService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Request;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.model.Response;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service.ModifyRequestService;
+import ru.maxim5858mru.urfu.java.lessons.springboot.introduction.service.ModifyService;
 
 @Slf4j
 @RestController
@@ -505,6 +506,348 @@ public class MainController {
 
 ### Снимки экрана
 
-![Снимок экрана в Jetbrains Intelli IDEA](images/Screenshot%20LW3.1%20Jetbrains%20Intelli%20IDEA.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA](images/Screenshot%20LW3.1%20Jetbrains%20IntelliJ%20IDEA.png)
 
-![Снимок экрана в Jetbrains Intelli IDEA окна Services с логами от второго сервиса](images/Screenshot%20LW3.2%20Jetbrains%20Intelli%20IDEA%20Second%20Service.png)
+![Снимок экрана в Jetbrains IntelliJ IDEA окна Services с логами от второго сервиса](images/Screenshot%20LW3.2%20Jetbrains%20IntelliJ%20IDEA%20Second%20Service.png)
+
+## Лабораторная работа №4
+
+### Цель работы
+
+Разработать REST Full Service.
+
+### Настройка базы данных H2
+
+![Снимок экрана в Jetbrains IntelliJ IDEA с созданием базы данных H2](images/Screenshot%20LW4.1%20Jetbrains%20IntelliJ%20IDEA%20Create%20database.png)
+
+Скрипт для создания таблицы и добавления данных:
+
+```h2
+-- Создание таблицы и добавление в неё данных
+
+-- Удаление строй таблицы
+DROP TABLE IF EXISTS Students;
+
+-- Создание таблицы
+CREATE TABLE Students
+(
+    Id      INT NOT NULL AUTO_INCREMENT,
+    Name    NVARCHAR(15),
+    Surname NVARCHAR(25),
+    Faculty NVARCHAR(20),
+    Age     INT,
+    CONSTRAINT PK_Students PRIMARY KEY (Id)
+);
+
+-- Добавление данных
+INSERT INTO Students (Name, Surname, Faculty, Age)
+VALUES (N'Иван', N'Иванов', 'IT', 28),
+       (N'Пётр', N'Петрова', 'Math', 25),
+       (N'Марина', N'Марьина', 'IT', 22);
+
+-- Вывод данных
+SELECT *
+FROM Students;
+```
+
+![Снимок экрана в Jetbrains IntelliJ IDEA с выводом данных из таблицы Students](images/Screenshot%20LW4.2%20Jetbrains%20IntelliJ%20IDEA%20Select%20all%20records%20from%20table%20Students.png)
+
+### Настройка JetBrains IntelliJ IDEA
+
+Файл `application.properties`:
+
+```properties
+logging.level.org.springframework.web=ERROR
+logging.level.ru.maxim5858mru.urfu.java.lessons.springboot.introduction=DEBUG
+logging.level.ru.maxim5858mru.urfu.java.lessons.springboot.rest=DEBUG
+spring.jpa.open-in-view=false
+spring.datasource.url=jdbc:h2:./database/students
+```
+
+Файл `pom.xml`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>demo</name>
+    <description>demo</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.7.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+![Снимок экрана в Jetbrains IntelliJ IDEA с окном настроек Compiler](images/Screenshot%20LW4.3%20Jetbrains%20IntelliJ%20IDEA%20Settings%20of%20Compiler.png)
+
+![Снимок экрана в Jetbrains IntelliJ IDEA с окном настроек Advanced Settings](images/Screenshot%20LW4.4%20Jetbrains%20IntelliJ%20IDEA%20Advanced%20Settings.png)
+
+### Разработка REST сервиса
+
+| HTTP метод | URL                | CRUD операция              |
+|------------|--------------------|----------------------------|
+| `GET`      | api/student        | Получение всех студентов   |
+| `GET`      | api/student/{id}   | Получение одного студента  |
+| `POST`     | api/student        | Добавление студента        |
+| `PUT`      | api/student        | Изменение студента         |
+| `DELETE`   | api/student/{id}   | Удаление студента          |
+
+Интерфейс `StudentDAO`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.rest.dao;
+
+import org.springframework.stereotype.Repository;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+
+import java.util.List;
+
+@Repository
+public interface StudentDAO {
+    List<Student> getAllStudents();
+
+    Student saveStudent(Student student);
+
+    Student getStudent(int id);
+
+    void deleteStudent(int id);
+}
+```
+
+Класс `StudentDAOImplentation`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.rest.dao;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+
+@Slf4j
+@Repository
+public class StudentDAOImplementation implements StudentDAO {
+    @Autowired
+    private EntityManager entityManager;
+
+    @Override
+    public List<Student> getAllStudents() {
+        var query = entityManager.createQuery("FROM STUDENTS");
+        List<Student> allStudents = query.getResultList();
+        log.info("Get all student: " + allStudents);
+        return allStudents;
+    }
+
+    @Override
+    public Student saveStudent(Student student) {
+        return entityManager.merge(student);
+    }
+
+    @Override
+    public Student getStudent(int id) {
+        return entityManager.find(Student.class, id);
+    }
+
+    @Override
+    public void deleteStudent(int id) {
+        var query = entityManager.createQuery("DELETE STUDENTS WHERE ID = :studentId");
+        query.setParameter("studentId", id);
+        query.executeUpdate();
+    }
+}
+
+```
+
+Интерфейс `StudentService`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.rest.service;
+
+import org.springframework.stereotype.Service;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+
+import java.util.List;
+
+@Service
+public interface StudentService {
+    List<Student> getAllStudents();
+
+    Student saveStudent(Student student);
+
+    Student getStudent(int id);
+
+    void deleteStudent(int id);
+}
+```
+
+Класс `StudentServiceImplentation`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.rest.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.dao.StudentDAO;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+
+import java.util.List;
+
+@Service
+public class StudentServiceImplementation implements StudentService {
+    @Autowired
+    private StudentDAO studentDAO;
+
+    @Override
+    @Transactional
+    public List<Student> getAllStudents() {
+        return studentDAO.getAllStudents();
+    }
+
+    @Override
+    @Transactional
+    public Student saveStudent(Student student) {
+        return studentDAO.saveStudent(student);
+    }
+
+    @Override
+    @Transactional
+    public Student getStudent(int id) {
+        return studentDAO.getStudent(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudent(int id) {
+        studentDAO.deleteStudent(id);
+    }
+}
+```
+
+Класс `MainController`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.rest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;
+import ru.maxim5858mru.urfu.java.lessons.springboot.rest.enity.Student;import ru.maxim5858mru.urfu.java.lessons.springboot.rest.service.StudentService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class MainController {
+    @Autowired
+    private StudentService studentService;
+
+    @GetMapping("/student")
+    public List<Student> showAllStudents() {
+        List<Student> allStudents = studentService.getAllStudents();
+        return allStudents;
+    }
+
+    @GetMapping("/student/{id}")
+    public Student getStudent(@PathVariable("id") int id) {
+        return studentService.getStudent(id);
+    }
+
+    @PostMapping("/student")
+    public Student saveStudent(@RequestBody Student student) {
+        studentService.saveStudent(student);
+        return student;
+    }
+
+    @PutMapping("/student")
+    public Student updateStudent(@RequestBody Student student) {
+        studentService.saveStudent(student);
+        return student;
+    }
+
+    @DeleteMapping("/student/{id}")
+    public void deleteStudent(@PathVariable("id") int id) {
+        studentService.deleteStudent(id);
+    }
+}
+```
+
+### Запуск и тестирование приложения
+
+![Снимок экрана в Postman с тестированием запроса Get All](images/Screenshot%20LW4.5%20Postman%20Get%20All.png)
+
+![Снимок экрана в Postman с тестированием запроса Get One](images/Screenshot%20LW4.6%20Postman%20Get%20One.png)
+
+![Снимок экрана в Postman с тестированием запроса Add](images/Screenshot%20LW4.7%20Postman%20Add.png)
+
+![Снимок экрана в Postman с тестированием запроса Update](images/Screenshot%20LW4.8%20Postman%20Update.png)
+
+![Снимок экрана в Postman с тестированием запроса Delete](images/Screenshot%20LW4.9%20Postman%20Delete.png)

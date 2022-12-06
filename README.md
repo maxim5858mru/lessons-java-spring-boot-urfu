@@ -927,3 +927,265 @@ public class MainController {
 ![Снимок экрана в браузере с тестированием приложения](images/Screenshot%20LW5.1%20Jetbrains%20IntelliJ%20IDEA%20and%20Web-browser.png)
 
 ![Снимок экрана в браузере с тестированием приложения при передаче параметра](images/Screenshot%20LW5.2%20Jetbrains%20IntelliJ%20IDEA%20and%20Web-browser.png)
+
+## Лабораторная работа №6
+
+### Цель работы
+
+Разработать веб-приложение с двумя веб-формами и базой данных.
+
+### Настройка базы данных
+
+Настройка базы данных для лабораторной работы №6 аналогична настройке выполненной в рамках лабораторной работы №4.
+
+### Код
+
+Класс `Student`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.mvc.enity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Setter
+@Getter
+@Entity
+@ToString
+@AllArgsConstructor
+@Table(name = "STUDENTS")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private long id;
+
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Surname")
+    private String surname;
+
+    @Column(name = "Faculty")
+    private String faculty;
+
+    @Column(name = "Age")
+    private int age;
+
+    public Student() {
+    }
+
+    public Student(String name, String surname, String faculty, int age) {
+        this.name = name;
+        this.surname = surname;
+        this.faculty = faculty;
+        this.age = age;
+    }
+}
+```
+
+Класс `StudentRepository`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.mvc.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import ru.maxim5858mru.urfu.java.lessons.springboot.mvc.enity.Student;
+
+public interface StudentRepository extends JpaRepository<Student, Long> {
+}
+```
+
+Класс `StudentController`:
+
+```java
+package ru.maxim5858mru.urfu.java.lessons.springboot.mvc.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import ru.maxim5858mru.urfu.java.lessons.springboot.mvc.dao.StudentRepository;
+import ru.maxim5858mru.urfu.java.lessons.springboot.mvc.enity.Student;
+
+@Slf4j
+@Controller
+public class StudentController {
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @GetMapping("/list")
+    public ModelAndView getAllStudents() {
+        log.info("/list -> connection");
+
+        var mav = new ModelAndView("list-students");
+        mav.addObject("students", studentRepository.findAll());
+        return mav;
+    }
+
+    @GetMapping("/addStudentForm")
+    public ModelAndView addStudentForm() {
+        log.info("/addStudentForm -> connection");
+
+        var mav = new ModelAndView("add-student-form");
+        var student = new Student();
+        mav.addObject("student", student);
+        return mav;
+    }
+
+    @GetMapping("/saveStudent")
+    public String saveStudent(Student student) {
+        log.info("/saveStudent -> connection");
+
+        studentRepository.save(student);
+        return "redirect:/list";
+    }
+
+    @GetMapping("showUpdateForm")
+    public ModelAndView showUpdateForm(long id) {
+        log.info("/showUpdateForm -> connection");
+
+        var mav = new ModelAndView("add-student-form");
+        var optionalStudent = studentRepository.findById(id);
+        var student = new Student();
+
+        if (optionalStudent.isPresent()) {
+            student = optionalStudent.get();
+        }
+
+        mav.addObject("student", student);
+        return mav;
+    }
+
+    @GetMapping("/deleteStudent")
+    public String deleteStudent(@RequestParam Long studentId) {
+        studentRepository.deleteById(studentId);
+        return "redirect:/list";
+    }
+}
+```
+
+Шаблон страницы `list-students.html`:
+
+```html
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List Students</title>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous"/>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>List Students</h3>
+
+    <hr/>
+    <a th:href="@{/addStudentForm}" class="btn btn-primary">Add Student</a>
+    <br/><br/>
+    <table class="table table-bordered table-striped" id="studentTable">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Faculty</th>
+            <th>Age</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student: ${students}">
+            <td th:text="${student.surname}"/>
+            <td th:text="${student.name}"/>
+            <td th:text="${student.faculty}"/>
+            <td th:text="${student.age}"/>
+            <td>
+                <a th:href="@{/showUpdateForm(studentId=${student.id})}" class="btn btn-info">Update</a>
+
+                <a th:href="@{/deleteStudent(studentId=${student.id})}" class="btn btn-danger ml-2">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#studentTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1] /* 1st one, start by the right */
+            }]
+        });
+    })
+</script>
+</body>
+</html>
+```
+
+Шаблон страницы `add-student-form.html`:
+
+```html
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Student</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+
+    <h3>Add New Student</h3>
+    <hr/>
+
+    <form th:action="@{/saveStudent}" th:object="${student}" method="POST">
+
+        <input type="text" th:field="*{name}" class="form-control col-4 mb-4" placeholder="Enter Name"/>
+
+        <input type="text" th:field="*{surname}" class="form-control col-4 mb-4" placeholder="Enter Surname"/>
+
+        <input type="text" th:field="*{faculty}" class="form-control col-4 mb-4" placeholder="Enter Faculty"/>
+
+        <input type="text" th:field="*{age}" class="form-control col-4 mb-4" placeholder="Enter Age"/>
+
+        <button type="submit" class="btn btn-primary col-2">Save</button>
+
+        <input type="hidden" th:field="*{id}"/>
+
+    </form>
+    <hr/>
+    <a th:href="@{/list}">Back to list</a>
+</div>
+</body>
+</html>
+```
+
+### Тестирование
+
+![Снимок экрана в браузере с формой для добавления студента](images/Screenshot%20LW6.1%20Jetbrains%20IntelliJ%20IDEA%20and%20Add%20Student.png)
+
+![Снимок экрана в браузере с попыткой сохранения изменений](images/Screenshot%20LW6.2%20Jetbrains%20IntelliJ%20IDEA%20and%20Add%20Student.png)
+
+![Снимок экрана в браузере с выводом списка студентов](images/Screenshot%20LW6.3%20Jetbrains%20IntelliJ%20IDEA%20and%20List%20Students.png)
